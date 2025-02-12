@@ -33,6 +33,6 @@ public class ClienteController {
     @DeleteMapping("/baja/{id}")
     public ResponseEntity<String> deleteCliente(@PathVariable int id){
         clienteService.deleteById(id);
-        return ResponseEntity.ok("Cliente con id " +id+" eliminado");
+        return ResponseEntity.ok("Cliente con id " +id+" eliminado.");
     }
 }
