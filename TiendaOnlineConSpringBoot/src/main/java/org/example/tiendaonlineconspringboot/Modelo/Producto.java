@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class Producto {
     @Size(max = 100)
     @NotNull
     @Pattern(regexp = "^\\w{2,100}$", message = "Nombre del producto debe tener caracteres alfanuméricos.")
-    @Column(name = "nombre", nullable = false, length = 100, unique = true)
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
     @Lob

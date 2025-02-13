@@ -27,12 +27,15 @@ public class ProductoService {
 
     public void saveOrUpdate(Producto producto) {
         String descripcion = producto.getDescripcion();
-
         if (producto.getPrecio().compareTo(new BigDecimal("10")) < 0){
             descripcion += "\nProducto de oferta.";
         }
         if (producto.getPrecio().compareTo(new BigDecimal("200")) > 0){
             descripcion += "\nProducto de calidad.";
+        }
+
+        if (productoRepository.findProductoByNombre(producto.getNombre()) != null){
+            throw new RuntimeException("El producto ya existe");
         }
 
         producto.setDescripcion(descripcion);

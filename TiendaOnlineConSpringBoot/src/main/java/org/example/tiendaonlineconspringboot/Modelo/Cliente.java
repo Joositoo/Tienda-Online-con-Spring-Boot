@@ -19,7 +19,7 @@ public class Cliente {
 
     @Size(max = 50)
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "El nombre debe tener caracteres alfaéticos.")
+    @Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "El nombre debe tener caracteres alfabéticos.")
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
