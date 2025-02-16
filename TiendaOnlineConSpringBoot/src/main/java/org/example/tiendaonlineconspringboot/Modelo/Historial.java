@@ -3,6 +3,7 @@ package org.example.tiendaonlineconspringboot.Modelo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -18,21 +19,21 @@ public class Historial {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "Debes rellenar el campo cliente")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "cliente_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "historials"})
     private Cliente cliente;
 
-    @NotNull
+    @NotNull(message = "Debes rellenar el campo producto")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "producto_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "historials"})
     private Producto producto;
 
-    @NotNull
+    @NotNull(message = "Debes rellenar el campo fecha_compra")
     @Column(name = "fecha_compra", nullable = false)
     private LocalDate fechaCompra;
 
@@ -42,6 +43,7 @@ public class Historial {
 
     @Size(max = 100)
     @Column(name = "tipo", length = 100)
+    @Pattern(regexp = "(Compra|Devolucion)")
     private String tipo;
 
     @Size(max = 200)

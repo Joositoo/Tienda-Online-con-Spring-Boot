@@ -2,10 +2,7 @@ package org.example.tiendaonlineconspringboot.Modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 
 import java.math.BigDecimal;
@@ -21,7 +18,7 @@ public class Producto {
     private Integer id;
 
     @Size(max = 100)
-    @NotNull
+    @NotBlank(message = "Debes rellenar el campo nombre.")
     @Pattern(regexp = "^\\w{2,100}$", message = "Nombre del producto debe tener caracteres alfanuméricos.")
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
@@ -30,14 +27,19 @@ public class Producto {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @NotNull
+    @NotNull(message = "Debes rellenar el campo precio.")
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio debe ser un valor mayor o igual a 0.")
     @Column(name = "precio", nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
 
-    @NotNull
+
+    @NotNull(message = "Debes rellenar el campo stock.")
     @Column(name = "stock", nullable = false)
     private Integer stock;
+
+    @Size(max = 255)
+    @Column(name = "imagen_url")
+    private String imagen_url;
 
     @OneToMany(mappedBy = "producto")
     @JsonIgnoreProperties({"producto"})
@@ -81,6 +83,14 @@ public class Producto {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public void setImagen_url(String imagen_url) {
+        this.imagen_url = imagen_url;
+    }
+
+    public String getImagen_url() {
+        return imagen_url;
     }
 
     public Set<Historial> getHistorials() {

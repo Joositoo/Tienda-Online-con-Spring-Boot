@@ -2,7 +2,7 @@ package org.example.tiendaonlineconspringboot.Modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -18,23 +18,23 @@ public class Cliente {
     private Integer id;
 
     @Size(max = 50)
-    @NotNull
+    @NotBlank(message = "Debes rellenar el campo nombre.")
     @Pattern(regexp = "^[a-zA-Z ]{2,50}$", message = "El nombre debe tener caracteres alfabéticos.")
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
     @Size(max = 50)
-    @NotNull
+    @NotBlank(message = "Debes rellenar el campo apellido.")
     @Column(name = "apellido", nullable = false, length = 50)
     private String apellido;
 
     @Size(max = 50)
-    @NotNull
+    @NotBlank(message = "Debes rellenar el campo nickname.")
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
 
     @Size(max = 255)
-    @NotNull
+    @NotBlank(message = "Debes rellenar el campo password.")
     @Pattern(regexp = "^\\w{5,255}$", message = "La contraseña debe contener mayúsculas, minúsculas, números, guiones bajos y una longitud mínima de 5 caracteres")
     @Column(name = "password", nullable = false)
     private String password;

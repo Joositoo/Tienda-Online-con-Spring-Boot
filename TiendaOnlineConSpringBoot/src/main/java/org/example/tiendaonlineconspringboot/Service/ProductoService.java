@@ -2,8 +2,10 @@ package org.example.tiendaonlineconspringboot.Service;
 
 import org.example.tiendaonlineconspringboot.Modelo.Producto;
 import org.example.tiendaonlineconspringboot.Repository.ProductoRepository;
+import org.example.tiendaonlineconspringboot.Repository.ServicioAlmacenamiento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class ProductoService {
     private final ProductoRepository productoRepository;
+    private final ServicioAlmacenamiento servicioAlmacenamiento;
 
     @Autowired
-    public ProductoService(ProductoRepository productoRepository) {
+    public ProductoService(ProductoRepository productoRepository, ServicioAlmacenamiento servicioAlmacenamiento) {
         this.productoRepository = productoRepository;
+        this.servicioAlmacenamiento = servicioAlmacenamiento;
     }
 
     public Iterable<Producto> getProductos() {
@@ -25,13 +29,13 @@ public class ProductoService {
         return productoRepository.findById(id);
     }
 
-    public void saveOrUpdate(Producto producto) {
+    public Producto saveOrUpdate(Producto producto) {
         String descripcion = producto.getDescripcion();
         if (producto.getPrecio().compareTo(new BigDecimal("10")) < 0){
-            descripcion += "\nProducto de oferta.";
+            descripcion += " - Producto de oferta -.";
         }
         if (producto.getPrecio().compareTo(new BigDecimal("200")) > 0){
-            descripcion += "\nProducto de calidad.";
+            descripcion += " - Producto de calidad -.";
         }
 
         if (productoRepository.findProductoByNombre(producto.getNombre()) != null){
@@ -40,6 +44,13 @@ public class ProductoService {
 
         producto.setDescripcion(descripcion);
         productoRepository.save(producto);
+        return producto;
+    }
+
+    public Producto saveOrUpdateWithImage (Producto producto, MultipartFile imagen) {
+        servicioAlmacenamiento.store(imagen);
+        producto.setImagen_url(servicioAlmacenamiento.load(imagen.getOriginalFilename()).toString());
+        return saveOrUpdate(producto);
     }
 
     public void deleteById(int id) {
