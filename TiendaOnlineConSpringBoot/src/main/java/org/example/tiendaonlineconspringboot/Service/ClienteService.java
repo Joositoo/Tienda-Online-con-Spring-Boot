@@ -21,7 +21,13 @@ public class ClienteService {
     }
 
     public Optional<Cliente> getClienteById(int id) {
-        return clienteRepository.findById(id);
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if (cliente.isPresent()){
+            return clienteRepository.findById(id);
+        }
+        else{
+            throw new RuntimeException("Cliente con id " + id + " no encontrado.");
+        }
     }
 
     public void saveOrUpdate(Cliente cliente) {
@@ -29,6 +35,11 @@ public class ClienteService {
     }
 
     public void deleteById(int id) {
-        clienteRepository.deleteById(id);
+        if (clienteRepository.existsById(id)){
+            clienteRepository.deleteById(id);
+        }
+        else{
+            throw new RuntimeException("Cliente con id " + id + " no existe.");
+        }
     }
 }

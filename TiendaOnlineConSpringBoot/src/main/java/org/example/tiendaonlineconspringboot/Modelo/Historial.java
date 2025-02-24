@@ -39,11 +39,12 @@ public class Historial {
 
     @ColumnDefault("1")
     @Column(name = "cantidad")
+    @NotNull(message = "Debes rellenar el campo cantidad-")
     private Integer cantidad;
 
     @Size(max = 100)
     @Column(name = "tipo", length = 100)
-    @Pattern(regexp = "(Compra|Devolucion)")
+    @Pattern(regexp = "(Compra|Devolucion)", message = "Tipo debe ser 'Compra' o 'Devolucion'.")
     private String tipo;
 
     @Size(max = 200)

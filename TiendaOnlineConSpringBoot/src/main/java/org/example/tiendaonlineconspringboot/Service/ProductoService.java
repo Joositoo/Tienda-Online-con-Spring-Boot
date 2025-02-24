@@ -26,7 +26,13 @@ public class ProductoService {
     }
 
     public Optional<Producto> getProductoById(int id) {
-        return productoRepository.findById(id);
+        Optional<Producto> producto = productoRepository.findById(id);
+        if (producto.isPresent()) {
+            return producto;
+        }
+        else {
+            throw new RuntimeException("No se encontro el producto con id " +id);
+        }
     }
 
     public Producto saveOrUpdate(Producto producto) {
@@ -54,6 +60,11 @@ public class ProductoService {
     }
 
     public void deleteById(int id) {
-        productoRepository.deleteById(id);
+        if (productoRepository.existsById(id)) {
+            productoRepository.deleteById(id);
+        }
+        else {
+            throw new RuntimeException("El producto con id " + id + " no existe.");
+        }
     }
 }

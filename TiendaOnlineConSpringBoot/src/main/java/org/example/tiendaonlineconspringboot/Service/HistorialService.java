@@ -26,7 +26,12 @@ public class HistorialService {
     }
 
     public Optional<Historial> getHistorialById(int id) {
-        return historialRepository.findById(id);
+        if (historialRepository.existsById(id)) {
+            return historialRepository.findById(id);
+        }
+        else{
+            throw new RuntimeException("No existe el historial con el id " + id);
+        }
     }
 
     public void saveOrUpdate(Historial historial) throws Exception {
